@@ -14,35 +14,33 @@ published by the Free Software Foundation.
 #include <Arduino.h>
 #include <Wire.h>
 
-//PCA9554 Command Byte
-#define INPUTPORT	0x00
-#define OUTPUTPORT	0x01
-#define POLINVPORT	0x02
-#define CONFIGPORT	0x03
+// PCA9554 Command Byte
+#define INPUTPORT 0x00
+#define OUTPUTPORT 0x01
+#define POLINVPORT 0x02
+#define CONFIGPORT 0x03
 
+#define ALLOUTPUT 0x00
+#define ALLINPUT 0xFF
 
-#define ALLOUTPUT	0x00
-#define ALLINPUT	0xFF
+class PCA9554 {
+ public:
+  PCA9554(byte SlaveAddress);
 
-class PCA9554
-{
-	public :
-		PCA9554(byte SlaveAddress);
+  bool twiRead(byte &registerAddress);
+  bool twiWrite(byte registerAddress, byte dataWrite);
 
-		bool twiRead(byte &registerAddress);
-		bool twiWrite(byte registerAddress, byte dataWrite);
+  bool pinMode(byte pinNumber, bool state);
+  bool portMode(byte value);
 
-		bool pinMode(byte pinNumber, bool state);
-		bool portMode(byte value);
-		
-		bool digitalWrite(byte pinNumber, bool state);
-		bool digitalWritePort(byte value);
-				
-		bool digitalRead(byte &pinNumber);
-		bool digitalReadPort(byte &value);
-		
-	private :
-		int _SlaveAddress;
+  bool digitalWrite(byte pinNumber, bool state);
+  bool digitalWritePort(byte value);
+
+  bool digitalRead(byte pinNumber);
+  bool digitalReadPort(byte &value);
+
+ private:
+  int _SlaveAddress;
 };
 
 #endif
